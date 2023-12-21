@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  server-auth:
+    image: zhoooot/server-auth:v0.1.0-alpha
+    ports:
+      - 4006:4006
+    restart: on-failure
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      REDIS_URL: ${REDIS_URL}
+      AT_SECRET: ${AT_SECRET}
+      RT_SECRET: ${RT_SECRET}
+      AT_EXPIRES_IN: ${AT_EXPIRES_IN}
+      RT_EXPIRES_IN: ${RT_EXPIRES_IN}
+      RT_EXPIRES_IN_SECONDS: ${RT_EXPIRES_IN_SECONDS}
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - backend
+  mysql:
+    image: mysql:5.7
+    hostname: ${MYSQL_HOST}
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 1s
+      timeout: 3s
+      retries: 20
+    networks:
+      - backend
+  redis:
+    image: redis:5.0.5
+    hostname: ${REDIS_HOST}
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 1s
+      timeout: 3s
+      retries: 20
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
