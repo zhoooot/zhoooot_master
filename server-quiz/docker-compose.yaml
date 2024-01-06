@@ -1,11 +1,11 @@
 version: "3"
 
 services:
-  server-auth:
-    image: zhoooot/server-auth:1.0.1
+  server-creator:
+    image: zhoooot/server-quiz:1.0.0
     restart: on-failure
     ports:
-      - 4006:3000
+      - 4000:3000
     env_file:
       - .env
     depends_on:
@@ -13,12 +13,13 @@ services:
         condition: service_healthy
   db:
     hostname: db
-    image: mysql:5.7
+    image: postgres:12.1
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: auth
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: server_creator
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD", "pg_isready", "-U", "postgres"]
       interval: 1s
       timeout: 5s
       retries: 10

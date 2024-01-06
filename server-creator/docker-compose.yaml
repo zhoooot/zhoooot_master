@@ -1,11 +1,11 @@
 version: "3"
 
 services:
-  server-auth:
-    image: zhoooot/server-auth:1.0.1
+  server-creator:
+    image: zhoooot/server-creator:1.0.0
     restart: on-failure
     ports:
-      - 4006:3000
+      - 4003:3001
     env_file:
       - .env
     depends_on:
@@ -16,7 +16,7 @@ services:
     image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: auth
+      MYSQL_DATABASE: server_creator
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 1s
