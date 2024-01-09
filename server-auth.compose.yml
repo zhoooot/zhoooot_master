@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  server-auth:
+    image: zhoooot/server-auth:1.1.1
+    networks:
+      - net
+    env_file:
+      - ./.server-auth.env
+    expose:
+      - 8080
+  redis:
+    hostname: redis-server-auth
+    image: redis:5.0.5-alpine
+    expose:
+      - 6379
+
+networks:
+  net:

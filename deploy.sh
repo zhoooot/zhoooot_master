@@ -1,4 +1,6 @@
 #! /bin/bash
 
-docker-compose -f server-auth/docker-compose.yaml up -d
-docker-compose -f server-creator/docker-compose.yaml up -d
+docker-compose \
+    -f postgres.compose.yml \
+    -f server-auth.compose.yml \
+    up -d
