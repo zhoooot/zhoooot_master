@@ -2,18 +2,27 @@ version: '3'
 
 services:
   server-auth:
-    image: zhoooot/server-auth:1.1.1
+    image: zhoooot/server-auth:1.1.3
+    restart: on-failure
     networks:
       - net
+      - auth-net
     env_file:
       - ./.server-auth.env
-    expose:
-      - 8080
-  redis:
+    ports:
+      - 4006:4006
+    depends_on:
+      - rabbitmq
+      - postgres
+      - redis-server-auth
+  redis-server-auth:
     hostname: redis-server-auth
     image: redis:5.0.5-alpine
+    networks:
+      - auth-net
     expose:
       - 6379
 
 networks:
   net:
+  auth-net:

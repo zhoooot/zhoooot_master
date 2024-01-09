@@ -1,6 +1,22 @@
 version: '3'
 
 services:
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    hostname: rabbitmq
+    expose:
+      - 5672
+      - 15672
+    networks:
+      - net
+    environment:
+      RABBITMQ_DEFAULT_USER: rabbitmq
+      RABBITMQ_DEFAULT_PASS: rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   postgres:
     image: postgres:15
     hostname: postgres
