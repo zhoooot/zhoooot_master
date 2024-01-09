@@ -35,6 +35,22 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+  adminer:
+    image: adminer:4
+    hostname: adminer
+    ports:
+      - 8080:8080
+    networks:
+      - net
+    depends_on:
+      - postgres
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "-", "http://adminer:8080"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 networks:
   net:

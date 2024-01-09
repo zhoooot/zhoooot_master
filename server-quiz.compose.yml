@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  server-quiz:
+    image: zhoooot/server-quiz:1.1.1
+    restart: on-failure
+    networks:
+      - net
+    env_file:
+      - ./.server-quiz.env
+    ports:
+      - 4000:4000
+    depends_on:
+      - rabbitmq
+      - postgres
+      
+networks:
+  net:
