@@ -28,6 +28,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
+      FORCE_SSL: TRUE
     volumes:
       - ./scripts:/docker-entrypoint-initdb.d
     healthcheck:

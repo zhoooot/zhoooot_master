@@ -1,23 +1,22 @@
 version: '3'
 
 services:
-  server-quiz:
-    image: zhoooot/server-quiz:s1.1.0
+  server-auth:
+    image: zhoooot/server-admin:s1.1.0
     restart: on-failure
     networks:
       - net
-      - quiz-net
+      - admin-net
     env_file:
-      - ./.server-quiz.env
+      - ./.server-admin.env
     ports:
-      - 4000:4000
+      - 4006:4006
     depends_on:
       rabbitmq:
         condition: service_healthy
       postgres:
         condition: service_healthy
-      
+
 networks:
   net:
-  quiz-net:
-
+  admin-net:
