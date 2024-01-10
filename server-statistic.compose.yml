@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  server-statistic:
+    image: zhoooot/server-statistics:1.0.0
+    restart: on-failure
+    networks:
+      - net
+      - statistic-net
+    env_file:
+      - ./.server-statistic.env
+    ports:
+      - 4002:3000
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      redis-server-statistic:
+        condition: service_healthy
+  redis-server-statistic:
+    hostname: redis-server-statistic
+    image: redis:5.0.5-alpine
+    networks:
+      - statistic-net
+    expose:
+      - 6379
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+networks:
+  net:
+  statistic-net:

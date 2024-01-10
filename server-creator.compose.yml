@@ -1,16 +1,16 @@
 version: '3'
 
 services:
-  server-admin:
-    image: zhoooot/server-admin:s1.1.0
+  server-creator:
+    image: zhoooot/server-creator:s1.1.0
     restart: on-failure
     networks:
       - net
-      - admin-net
+      - creator-net
     env_file:
-      - ./.server-admin.env
+      - ./.server-creator.env
     ports:
-      - 4001:4001
+      - 4003:4010
     depends_on:
       rabbitmq:
         condition: service_healthy
@@ -19,4 +19,4 @@ services:
 
 networks:
   net:
-  admin-net:
+  creator-net:
